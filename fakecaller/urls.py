@@ -16,11 +16,13 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from authentication.v1.views import RegistrationView, LoginView, LogoutView
+from mark_spam.v1.views import MarkSpamView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^login$', LoginView.as_view()),
     url(r'^logout$', LogoutView.as_view()),
-    url(r'^sign_up$', RegistrationView.as_view())
+    url(r'^sign_up$', RegistrationView.as_view()),
+    url(r'^mark_spam$', MarkSpamView.as_view())
 
 ]
