@@ -5,7 +5,7 @@ from helpers.mixins import SafeDeleteMixinExtended,BaseMixin
 
 class PhoneBook(SafeDeleteMixinExtended, BaseMixin):
     user = models.OneToOneField(User, blank=True, null=True, on_delete=models.CASCADE)
-    phone_number = models.CharField(max_length=30)
+    phone_number = models.CharField(max_length=30, unique=True)
 
 
 class PhoneNumberOwnerName(SafeDeleteMixinExtended, BaseMixin):
@@ -21,9 +21,16 @@ class PhoneNumberOwnerName(SafeDeleteMixinExtended, BaseMixin):
             "is_spam" : ""
         }
         profile_dict["name"] = self.name
-        profile_dict["email"] = self.phone_number.user.email
+        if self.phone_number.user:
+            profile_dict["email"] = self.phone_number.user.email
+        else:
+            profile_dict["email"] = ""
         profile_dict["phone_number"] = self.phone_number.phone_number
-        profile_dict["is_spam"] =  len(self.phone_number.user.spammarker_set.all()) > 0
+        try:
+            self.phone_number.spammarker
+            profile_dict["is_spam"] =  True
+        except Exception as e:
+            profile_dict["is_spam"] =  False
         return profile_dict
 
 
