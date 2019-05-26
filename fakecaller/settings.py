@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'core',
     'authentication',
     'safedelete',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'search'
 ]
 
 MIDDLEWARE = [
