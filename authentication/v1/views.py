@@ -15,18 +15,20 @@ class RegistrationView(APIView):
 
     def post(self, request, *args, **kwargs):
         serializer = RegisterUserSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        is_valid = serializer.is_valid()
+        standard_auth_response = StandardAuthResponse()
+        if not is_valid:
+            return Response(standard_auth_response.login_failed_response(403, serializer.errors), status=403)
         registration_service = RegistrationService.register_user(serializer.data["phone_number"],
                                                                  serializer.data["name"],
                                                                  serializer.data["email"],
                                                                  serializer.data["password1"]
                                                                  )
-        standard_auth_response = StandardAuthResponse()
         if registration_service:
             token = LoginService.login_user(
                 serializer.data["phone_number"], serializer.data["password1"])
             return Response(standard_auth_response.login_success_response(token.key), status=200)
-        return Response(standard_auth_response.login_failed_response(301, "Forbidden"), status=301)
+        return Response(standard_auth_response.login_failed_response(403, "Forbidden"), status=301)
 
 
 class LoginView(APIView, StandardAuthResponse):

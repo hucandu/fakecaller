@@ -18,7 +18,7 @@ class StandardAuthResponse(object):
     def login_failed_response(self, code, errors):
         self.core_response["code"] = code
         self.core_response["status"] = "failed"
-        self.errors = errors
+        self.core_response["errors"] = errors
         return self.core_response
 
     def logout_success_response(self):

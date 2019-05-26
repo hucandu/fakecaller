@@ -24,7 +24,7 @@ urlpatterns = [
     url(r'^login$', LoginView.as_view()),
     url(r'^logout$', LogoutView.as_view()),
     url(r'^sign_up$', RegistrationView.as_view()),
-    url(r'^mark_spam$', MarkSpamView.as_view())
+    url(r'^mark_spam$', MarkSpamView.as_view()),
     url(r'^search/', SearchView.as_view())
 
 ]

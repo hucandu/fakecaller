@@ -31,3 +31,5 @@ class SearchView(APIView):
             result_list_phone = search_service.search_by_phone(phone_number)
             result_list_phone =  list(map(lambda x:x.get_profile, result_list_phone))
             return Response(standard_search_response.search_success_response(result_list_phone), status=200)
+
+        return Response(standard_search_response.search_failed_response(403, "No query params provided to search"), status=403)
